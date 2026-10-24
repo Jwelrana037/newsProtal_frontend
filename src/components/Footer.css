@@ -1,0 +1,495 @@
+/* =========================================
+   NEWS PORTAL FOOTER
+   Daily Lalmai Janakantha Sangbad
+========================================= */
+
+.site-footer {
+  --footer-bg: #111827;
+  --footer-panel: #172033;
+  --footer-text: #cbd5e1;
+  --footer-muted: #94a3b8;
+  --footer-accent: #d71920;
+
+  width: 100%;
+  margin-top: 40px;
+  color: var(--footer-text);
+  background: var(--footer-bg);
+  font-family: inherit;
+}
+
+/* Main Footer */
+
+.footer-main {
+  padding: 55px 0 45px;
+  background:
+    linear-gradient(135deg, rgba(215, 25, 32, 0.06), transparent 45%),
+    var(--footer-bg);
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: 1.45fr 0.8fr 0.9fr 1.35fr;
+  gap: 38px;
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+/* Brand */
+
+.footer-brand {
+  min-width: 0;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 22px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+.footer-logo-top {
+  margin-bottom: 5px;
+  color: #f3f1f1;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  font-size: 20px;
+}
+
+.footer-logo-middle {
+  color: #ec2323;
+  font-size: clamp(21px, 2vw, 29px);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  font-size: 20px;
+}
+.footer-logo-middle-2nd {
+  color: green;
+  font-size: 20px;
+}
+.footer-logo-bottom {
+  align-self: flex-end;
+  margin-top: 5px;
+  padding: 3px 10px;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.footer-description {
+  max-width: 360px;
+  margin: 0 0 18px;
+  color: var(--footer-text);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.footer-publisher {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 22px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.footer-publisher strong {
+  color: #ffffff;
+}
+
+.footer-publisher span {
+  color: var(--footer-muted);
+}
+
+/* Social Links */
+
+.footer-social-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 15px;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.footer-social:hover {
+  transform: translateY(-3px);
+  border-color: var(--footer-accent);
+  background: var(--footer-accent);
+}
+
+/* Footer Columns */
+
+.footer-column {
+  min-width: 0;
+}
+
+.footer-heading {
+  margin: 0;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.footer-heading-line {
+  display: block;
+  width: 43px;
+  height: 3px;
+  margin: 12px 0 22px;
+  border-radius: 5px;
+  background: var(--footer-accent);
+}
+
+/* Footer Lists */
+
+.footer-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-link-list li {
+  margin: 0;
+  padding: 0;
+}
+
+.footer-link-list a {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--footer-text);
+  font-size: 14px;
+  line-height: 1.7;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.footer-link-arrow {
+  flex-shrink: 0;
+  color: var(--footer-accent);
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.footer-link-list a:hover {
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+/* Contact */
+
+.footer-contact-description {
+  margin: 0 0 20px;
+  color: var(--footer-text);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  margin-bottom: 18px;
+  color: var(--footer-text);
+  text-decoration: none;
+}
+
+.footer-contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: #ffffff;
+  background: rgba(215, 25, 32, 0.15);
+  font-size: 14px;
+}
+
+.footer-contact-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.footer-contact-text small {
+  color: var(--footer-muted);
+  font-size: 12px;
+}
+
+.footer-contact-text > span {
+  color: #ffffff;
+}
+
+.footer-contact-item[href]:hover .footer-contact-text > span {
+  color: #ff7378;
+}
+
+.footer-address {
+  cursor: default;
+}
+
+/* Bottom Footer */
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0b1120;
+}
+
+.footer-bottom-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  width: min(1200px, calc(100% - 40px));
+  min-height: 85px;
+  margin: 0 auto;
+  padding: 18px 0;
+}
+
+.footer-copyright {
+  min-width: 0;
+}
+
+.footer-copyright p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.footer-copyright-brand {
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footer-copyright-brand:hover {
+  color: #ff7378;
+}
+
+.footer-rights {
+  color: var(--footer-muted);
+}
+
+.footer-legal-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-legal-links a {
+  color: var(--footer-text);
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-legal-links a:hover {
+  color: #ffffff;
+}
+
+.footer-legal-divider {
+  color: #475569;
+}
+
+/* Back To Top */
+
+.footer-back-to-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  background: var(--footer-accent);
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.footer-back-to-top:hover {
+  transform: translateY(-3px);
+  background: #a90f18;
+}
+
+.footer-back-to-top:focus-visible,
+.footer-social:focus-visible,
+.footer-link-list a:focus-visible,
+.footer-legal-links a:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+/* Laptop and Tablet */
+
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 42px 35px;
+  }
+
+  .footer-brand {
+    max-width: 440px;
+  }
+
+  .footer-description {
+    max-width: 420px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .site-footer {
+    margin-top: 25px;
+  }
+
+  .footer-main {
+    padding: 38px 0 30px;
+  }
+
+  .footer-container {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    width: calc(100% - 32px);
+  }
+
+  .footer-logo {
+    margin-bottom: 18px;
+  }
+
+  .footer-logo-middle {
+    font-size: 26px;
+  }
+
+  .footer-description {
+    max-width: none;
+    font-size: 13px;
+  }
+
+  .footer-heading {
+    font-size: 16px;
+  }
+
+  .footer-heading-line {
+    margin: 10px 0 18px;
+  }
+
+  .footer-link-list {
+    gap: 12px;
+  }
+
+  .footer-link-list a {
+    font-size: 14px;
+  }
+
+  .footer-contact-text {
+    font-size: 13px;
+  }
+
+  .footer-bottom-container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    width: calc(100% - 32px);
+    padding: 22px 0;
+  }
+
+  .footer-copyright {
+    flex: 1 1 100%;
+  }
+
+  .footer-legal-links {
+    justify-content: flex-start;
+    gap: 9px;
+  }
+
+  .footer-legal-links a {
+    font-size: 12px;
+  }
+
+  .footer-back-to-top {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* Small Mobile */
+
+@media (max-width: 360px) {
+  .footer-logo-middle {
+    font-size: 22px;
+  }
+
+  .footer-bottom-container {
+    align-items: flex-start;
+  }
+
+  .footer-legal-links {
+    max-width: calc(100% - 50px);
+  }
+}
+
+/* Reduced Motion Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-social,
+  .footer-link-list a,
+  .footer-legal-links a,
+  .footer-back-to-top {
+    transition: none;
+  }
+
+  .footer-social:hover,
+  .footer-back-to-top:hover {
+    transform: none;
+  }
+}

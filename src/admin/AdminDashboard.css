@@ -1,0 +1,319 @@
+.admin-dashboard {
+  min-height: 100vh;
+  background: #f4f6fa;
+  color: #1f2937;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 5%;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-header h1 {
+  margin: 0 0 6px;
+  color: #1d4ed8;
+  font-size: 25px;
+}
+
+.admin-header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.admin-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-home-link,
+.admin-logout-button {
+  padding: 10px 15px;
+  border-radius: 7px;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.admin-home-link {
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+.admin-logout-button {
+  color: #ffffff;
+  background: #dc2626;
+  border: none;
+}
+
+.admin-dashboard-content {
+  width: 90%;
+  max-width: 1400px;
+  margin: 30px auto;
+}
+
+.admin-welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.admin-welcome h2 {
+  margin: 0 0 8px;
+  font-size: 26px;
+}
+
+.admin-welcome p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.admin-add-button {
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.admin-add-button:hover {
+  background: #1d4ed8;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.admin-stat-card {
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.admin-stat-card span {
+  display: block;
+  margin-bottom: 12px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.admin-stat-card strong {
+  font-size: 30px;
+  color: #1d4ed8;
+}
+
+.admin-news-section {
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.admin-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.admin-section-heading h2 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.admin-refresh-button {
+  padding: 9px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.admin-refresh-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.admin-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-news-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-news-table th,
+.admin-news-table td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.admin-news-table th {
+  background: #f9fafb;
+  color: #4b5563;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-news-title {
+  min-width: 180px;
+  max-width: 300px;
+  font-weight: 600;
+}
+
+.admin-status {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.status-published {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-draft {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.admin-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-edit-button,
+.admin-delete-button {
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.admin-edit-button {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.admin-delete-button {
+  border: none;
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.admin-delete-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-message {
+  padding: 25px 10px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.admin-message a {
+  color: #2563eb;
+}
+
+.admin-error {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 14px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.admin-error button {
+  padding: 7px 10px;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .admin-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-header {
+    padding: 20px 4%;
+  }
+
+  .admin-dashboard-content {
+    width: 92%;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-header,
+  .admin-welcome {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-header {
+    gap: 16px;
+  }
+
+  .admin-header-actions {
+    flex-wrap: wrap;
+  }
+
+  .admin-welcome h2 {
+    font-size: 23px;
+  }
+
+  .admin-add-button {
+    display: inline-block;
+  }
+
+  .admin-stats {
+    gap: 12px;
+  }
+
+  .admin-stat-card {
+    padding: 16px;
+  }
+
+  .admin-stat-card strong {
+    font-size: 25px;
+  }
+
+  .admin-news-section {
+    padding: 14px;
+  }
+
+  .admin-section-heading h2 {
+    font-size: 18px;
+  }
+}

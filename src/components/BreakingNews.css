@@ -1,0 +1,146 @@
+.breaking-news {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  overflow: hidden;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  font-family: inherit;
+  margin-top: 5px;
+
+}
+
+.breaking-label {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 8px;
+  padding: 0 10px;
+  color: #ffffff;
+  background: #c90024;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+   border-radius: 10px;
+
+}
+
+.breaking-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: breakingPulse 1.2s infinite;
+}
+
+.breaking-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.breaking-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  flex-shrink: 0;
+  animation: breakingScroll 35s linear infinite;
+}
+
+.breaking-track:hover {
+  animation-play-state: paused;
+}
+
+.breaking-item {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0 24px;
+  color: #222222;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.breaking-item::after {
+  content: '◆';
+  margin-left: 24px;
+  color: #c90024;
+  font-size: 10px;
+}
+
+.breaking-item:hover {
+  color: #c90024;
+}
+
+@keyframes breakingScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes breakingPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 600px) {
+  .breaking-news {
+    height: 40px;
+
+  }
+
+  .breaking-label {
+    gap: 6px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
+  .breaking-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .breaking-item {
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .breaking-item::after {
+    margin-left: 14px;
+  }
+
+  .breaking-track {
+    animation-duration: 28s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .breaking-track,
+  .breaking-dot {
+    animation: none;
+  }
+
+  .breaking-content {
+    overflow-x: auto;
+  }
+}
