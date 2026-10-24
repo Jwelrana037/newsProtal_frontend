@@ -35,8 +35,18 @@ function AdminDashboard() {
   }
 
   useEffect(() => {
+    async function loadNews() {
+      try {
+        setLoading(true);
+      } catch (err) {
+        if (/token|unauthorized|authorizationa|access/i.test(err.message)) {
+          adminLogout();
+          navigate('/AdminLogin');
+        }
+      }
+    }
     loadNews();
-  }, []);
+  }, [navigate]);
 
   // সংবাদ Delete করা
   async function handleDelete(id, title) {

@@ -35,7 +35,7 @@ function BreakingNews() {
 
     async function fetchBreakingNews() {
       try {
-        const response = await fetch(`${API_URL}/api/breaking-news`);
+        const response = await fetch(`${API_URL}/news/featured`);
 
         if (!response.ok) {
           throw new Error(`Request failed: ${response.status}`);
