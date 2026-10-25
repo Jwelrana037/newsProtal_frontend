@@ -10,12 +10,143 @@ const API_URL = (
 
 const BACKEND_URL = API_URL.replace(/\/api$/, '');
 
+function getMediaUrl(filePath) {
+  if (!filePath) return '';
+
+  if (/^https?:\/\//i.test(filePath)) {
+    return filePath;
+  }
+
+  return `${BACKEND_URL}${filePath.startsWith('/') ? '' : '/'}${filePath}`;
+}
+
+function getSafeTargetUrl(targetUrl) {
+  if (!targetUrl) return null;
+
+  try {
+    const parsedUrl = new URL(targetUrl);
+
+    if (['http:', 'https:'].includes(parsedUrl.protocol)) {
+      return parsedUrl.href;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function AdvertisementCard({ ad, index, isBangla }) {
+  const imageUrl = getMediaUrl(ad.image);
+  const videoUrl = getMediaUrl(ad.video);
+  const targetUrl = getSafeTargetUrl(ad.targetUrl);
+
+  const animationClass =
+    ad.animation && ad.animation !== 'none'
+      ? `ad-animation-${ad.animation}`
+      : '';
+
+  const duration = Math.min(60, Math.max(3, Number(ad.durationSeconds) || 10));
+
+  let content;
+
+  if (ad.type === 'video' && videoUrl) {
+    content = (
+      <video
+        className="header-ad-video"
+        src={videoUrl}
+        autoPlay
+        muted
+        loop
+        playsInline
+        controls
+        preload="metadata"
+        aria-label={ad.title || 'Video advertisement'}
+      >
+        আপনার ব্রাউজার ভিডিও চালাতে পারছে না।
+      </video>
+    );
+  } else if (ad.type === 'image' && imageUrl) {
+    content = (
+      <img
+        src={imageUrl}
+        alt={ad.title || 'Advertisement'}
+        className="header-ad-image"
+        loading="lazy"
+      />
+    );
+  } else if (ad.type === 'video') {
+    content = <div className="header-ad-fallback">ভিডিও ফাইল পাওয়া যায়নি।</div>;
+  } else if (ad.type === 'image') {
+    content = (
+      <div className="header-ad-fallback">বিজ্ঞাপনের ছবি পাওয়া যায়নি।</div>
+    );
+  } else {
+    content = (
+      <div
+        className={`header-ad-animated ${animationClass}`}
+        style={{
+          backgroundColor: ad.backgroundColor || '#123b56',
+          color: ad.textColor || '#ffffff',
+          '--ad-duration': `${duration}s`,
+        }}
+      >
+        <span className="ad-label">
+          {isBangla ? 'বিজ্ঞাপন' : 'ADVERTISEMENT'}
+        </span>
+
+        <strong className="header-ad-headline">
+          {ad.headline || ad.title || 'বিশেষ বিজ্ঞাপন'}
+        </strong>
+
+        {ad.description && (
+          <span className="header-ad-description">{ad.description}</span>
+        )}
+
+        {ad.price && (
+          <strong className="header-ad-price">
+            {isBangla ? 'মূল্য: ' : 'Price: '}
+            {ad.price}
+          </strong>
+        )}
+
+        {ad.offer && <span className="header-ad-offer">{ad.offer}</span>}
+
+        {ad.contact && (
+          <span className="header-ad-contact">
+            {isBangla ? 'যোগাযোগ: ' : 'Contact: '}
+            {ad.contact}
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <article className="header-ad-content" data-ad-index={index}>
+      {targetUrl ? (
+        <a
+          href={targetUrl}
+          target="_blank"
+          rel="noopener noreferrer sponsored"
+          className="header-ad-link"
+          aria-label={ad.title || 'Advertisement'}
+        >
+          {content}
+        </a>
+      ) : (
+        content
+      )}
+    </article>
+  );
+}
+
 function Navbar() {
   const [search, setSearch] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [dateTime, setDateTime] = useState(new Date());
-  const [advertisement, setAdvertisement] = useState(null);
+  const [advertisements, setAdvertisements] = useState([]);
 
   const searchInputRef = useRef(null);
   const searchFormRef = useRef(null);
@@ -43,7 +174,7 @@ function Navbar() {
     return () => clearInterval(timer);
   }, []);
 
-  // Scroll করলে Navbar Hide / Show
+  // Scroll অনুযায়ী Navbar Hide / Show
   useEffect(() => {
     let previousScrollY = window.scrollY;
     let ticking = false;
@@ -84,18 +215,17 @@ function Navbar() {
     };
   }, []);
 
-  // Search খুললে ইনপুটে Focus
+  // Search খুললে Input-এ Focus
   useEffect(() => {
     if (searchOpen) {
       searchInputRef.current?.focus();
     }
   }, [searchOpen]);
 
-  // Search-এর বাইরে ক্লিক করলে বন্ধ হবে
+  // Search-এর বাইরে ক্লিক অথবা Escape চাপলে Search বন্ধ
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (
-        searchOpen &&
         searchFormRef.current &&
         !searchFormRef.current.contains(event.target)
       ) {
@@ -116,17 +246,18 @@ function Navbar() {
       document.removeEventListener('pointerdown', handleOutsideClick);
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [searchOpen]);
+  }, []);
 
-  // Backend থেকে সক্রিয় Navbar বিজ্ঞাপন লোড
+  // Backend থেকে সক্রিয় Header বিজ্ঞাপন লোড
   useEffect(() => {
     const controller = new AbortController();
 
-    async function fetchAdvertisement() {
+    async function fetchAdvertisements() {
       try {
-        const response = await fetch(`${API_URL}/advertisements/navbar`, {
-          signal: controller.signal,
-        });
+        const response = await fetch(
+          `${API_URL}/advertisements/position/header`,
+          { signal: controller.signal }
+        );
 
         if (!response.ok) {
           throw new Error(`বিজ্ঞাপন লোড করা যায়নি (HTTP ${response.status})`);
@@ -134,26 +265,20 @@ function Navbar() {
 
         const data = await response.json();
 
-        console.log('Navbar Advertisement Data:', data);
-        console.log(
-          'Advertisement Request URL:',
-          `${API_URL}/advertisements/navbar`
-        );
-
-        if (data.success) {
-          setAdvertisement(data.advertisement || null);
+        if (data.success && Array.isArray(data.advertisements)) {
+          setAdvertisements(data.advertisements);
         } else {
-          setAdvertisement(null);
+          setAdvertisements([]);
         }
       } catch (error) {
         if (error.name !== 'AbortError') {
-          console.error('Advertisement Error:', error);
-          setAdvertisement(null);
+          console.error('Header Advertisement Error:', error);
+          setAdvertisements([]);
         }
       }
     }
 
-    fetchAdvertisement();
+    fetchAdvertisements();
 
     return () => controller.abort();
   }, []);
@@ -179,7 +304,7 @@ function Navbar() {
     setSearchOpen(false);
   };
 
-  // তারিখ
+  // তারিখ ফরম্যাট
   const formattedDate = new Intl.DateTimeFormat(isBangla ? 'bn-BD' : 'en-GB', {
     weekday: 'long',
     day: 'numeric',
@@ -187,7 +312,7 @@ function Navbar() {
     year: 'numeric',
   }).format(dateTime);
 
-  // সময়
+  // সময় ফরম্যাট
   const formattedTime = new Intl.DateTimeFormat(isBangla ? 'bn-BD' : 'en-GB', {
     hour: '2-digit',
     minute: '2-digit',
@@ -195,14 +320,25 @@ function Navbar() {
     hour12: true,
   }).format(dateTime);
 
-  // বিজ্ঞাপনের ছবির সম্পূর্ণ URL
-  const advertisementImageUrl = advertisement?.image
-    ? /^https?:\/\//i.test(advertisement.image)
-      ? advertisement.image
-      : `${BACKEND_URL}${
-          advertisement.image.startsWith('/') ? '' : '/'
-        }${advertisement.image}`
-    : '';
+  // বিজ্ঞাপন Render
+  const renderAdvertisements = () => {
+    if (advertisements.length === 0) {
+      return null;
+    }
+
+    return (
+      <div className="header-ad-grid">
+        {advertisements.map((ad, index) => (
+          <AdvertisementCard
+            key={ad._id || `${ad.title || 'advertisement'}-${index}`}
+            ad={ad}
+            index={index}
+            isBangla={isBangla}
+          />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div
@@ -223,6 +359,7 @@ function Navbar() {
               <span className="topbar-divider">|</span>
               <span>{formattedTime}</span>
             </div>
+
             <div className="topbar-right">
               <button
                 type="button"
@@ -236,7 +373,7 @@ function Navbar() {
                 <a
                   href="https://www.facebook.com/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label="Facebook"
                 >
                   f
@@ -245,7 +382,7 @@ function Navbar() {
                 <a
                   href="https://www.youtube.com/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label="YouTube"
                 >
                   ▶
@@ -254,7 +391,7 @@ function Navbar() {
                 <a
                   href="https://x.com/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label="X"
                 >
                   𝕏
@@ -263,7 +400,7 @@ function Navbar() {
                 <a
                   href="https://www.instagram.com/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label="Instagram"
                 >
                   ◎
@@ -272,8 +409,10 @@ function Navbar() {
             </div>
           </div>
         </div>
-        {/* Logo, Advertisement, Search */}
+
+        {/* Logo, Desktop Advertisement এবং Search */}
         <div className="navbar-container brand-row">
+          {/* Logo */}
           <Link
             to="/"
             className="brand-logo"
@@ -281,22 +420,29 @@ function Navbar() {
             aria-label={isBangla ? 'প্রচ্ছদ' : 'Home'}
           >
             <span className="logo-icon">
-              <img src="/images/MyLogo.png" alt="দৈনিক" className="site-logo" />
+              <img
+                src="/images/MyLogo.png"
+                alt="দৈনিক লালমাই জনকণ্ঠ সংবাদ"
+                className="site-logo"
+              />
             </span>
 
             <span className="brand-copy">
               <span className="first-logo">{isBangla ? 'দৈনিক' : 'Daily'}</span>
-              <div className="brand-div">
+
+              <span className="brand-div">
                 <span className="brand-red">
                   {isBangla ? 'লালমাই ' : 'Lalmai'}
                 </span>
+
                 <span className="brand-green">
                   {isBangla ? ' জনকণ্ঠ' : 'Janakantha'}
                 </span>
+
                 <span className="brand-dark">
-                  {isBangla ? '  সংবাদ' : 'News'}
+                  {isBangla ? ' সংবাদ' : 'News'}
                 </span>
-              </div>
+              </span>
 
               <small className="logo-second-site">
                 {isBangla
@@ -306,42 +452,12 @@ function Navbar() {
             </span>
           </Link>
 
-          {/* Navbar Advertisement */}
-          <div className="header-ad header-ad-desktop">
-            {advertisement && advertisementImageUrl ? (
-              <a
-                href={advertisement.targetUrl}
-                target="_blank"
-                rel="noopener noreferrer sponsored"
-                className="header-ad-link"
-                aria-label={advertisement.title}
-              >
-                <img
-                  src={advertisementImageUrl}
-                  alt={advertisement.title}
-                  className="header-ad-image"
-                />
-              </a>
-            ) : (
-              <>
-                <span className="ad-label">
-                  {isBangla ? 'বিজ্ঞাপন' : 'ADVERTISEMENT'}
-                </span>
-
-                <strong>
-                  {isBangla
-                    ? 'সঠিক তথ্য, সমৃদ্ধ দেশ'
-                    : 'Trusted News, Informed Nation'}
-                </strong>
-
-                <span>
-                  {isBangla
-                    ? 'সত্যের সঙ্গে প্রতিদিন'
-                    : 'Stay informed every day'}
-                </span>
-              </>
-            )}
-          </div>
+          {/* শুধু Desktop Header-এ Advertisement */}
+          {advertisements.length > 0 && (
+            <div className="header-ad header-ad-desktop">
+              {renderAdvertisements()}
+            </div>
+          )}
 
           {/* Search */}
           <form
@@ -379,6 +495,7 @@ function Navbar() {
           </form>
         </div>
       </header>
+
       {/* Navigation */}
       <nav
         className="category-nav"
@@ -420,44 +537,9 @@ function Navbar() {
           </NavLink>
         </div>
       </nav>
-      {/* Breaking News */}
+
       {/* Breaking News */}
       <BreakingNews />
-
-      {/* Mobile & Tablet Advertisement */}
-      <div className="navbar-container header-ad header-ad-mobile">
-        {advertisement && advertisementImageUrl ? (
-          <a
-            href={advertisement.targetUrl}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
-            className="header-ad-link"
-            aria-label={advertisement.title}
-          >
-            <img
-              src={advertisementImageUrl}
-              alt={advertisement.title}
-              className="header-ad-image"
-            />
-          </a>
-        ) : (
-          <>
-            <span className="ad-label">
-              {isBangla ? 'বিজ্ঞাপন' : 'ADVERTISEMENT'}
-            </span>
-
-            <strong>
-              {isBangla
-                ? 'সঠিক তথ্য, সমৃদ্ধ দেশ'
-                : 'Trusted News, Informed Nation'}
-            </strong>
-
-            <span>
-              {isBangla ? 'সত্যের সঙ্গে প্রতিদিন' : 'Stay informed every day'}
-            </span>
-          </>
-        )}
-      </div>
     </div>
   );
 }

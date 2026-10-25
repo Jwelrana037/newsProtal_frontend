@@ -1,6 +1,12 @@
-/* =====================================================
-   Navbar.css — Responsive styles for the supplied Navbar.jsx
-   ===================================================== */
+/* =========================================================
+   Navbar.css
+   Responsive Navbar + Desktop Advertisement
+   Mobile/Tablet Navbar: NO advertisements
+========================================================= */
+
+/* =========================================================
+   1. GLOBAL
+========================================================= */
 
 .navbar-wrapper,
 .navbar-wrapper *,
@@ -19,7 +25,6 @@
   transition:
     transform 0.28s ease,
     visibility 0.28s ease;
-  will-change: transform;
 }
 
 .navbar-wrapper.navbar-visible {
@@ -36,16 +41,20 @@
 
 .navbar-container {
   width: min(1440px, calc(100% - 32px));
-  margin-inline: auto;
   min-width: 0;
+  margin-inline: auto;
 }
 
 .site-header {
   width: 100%;
+  min-width: 0;
   background: #fff;
 }
 
-/* Top bar */
+/* =========================================================
+   2. TOP BAR
+========================================================= */
+
 .topbar {
   width: 100%;
   background: #08233e;
@@ -77,6 +86,7 @@
 .calendar-icon {
   font-size: 14px;
 }
+
 .topbar-divider {
   opacity: 0.6;
 }
@@ -99,24 +109,30 @@
 .social-links {
   gap: 14px;
 }
+
 .social-links a {
   color: #fff;
   text-decoration: none;
   font-size: 15px;
   font-weight: 700;
 }
+
 .social-links a:hover {
   color: #ff435d;
 }
 
-/* Brand, ad and search row */
+/* =========================================================
+   3. BRAND ROW
+========================================================= */
+
 .brand-row {
+  min-width: 0;
   min-height: 92px;
   display: grid;
-  grid-template-columns: minmax(225px, 0.95fr) minmax(220px, 1.25fr) minmax(
-      180px,
-      0.65fr
-    );
+  grid-template-columns:
+    minmax(200px, 0.95fr)
+    minmax(180px, 1.1fr)
+    minmax(180px, 0.85fr);
   align-items: center;
   gap: 18px;
   padding-block: 10px;
@@ -132,9 +148,9 @@
 }
 
 .logo-icon {
-  width: 50px;
-  height: 50px;
-  flex: 0 0 50px;
+  width: 70px;
+  height: 70px;
+  flex: 0 0 70px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,7 +168,6 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-
   align-items: flex-start;
   line-height: 1.25;
 }
@@ -160,7 +175,7 @@
 .first-logo {
   position: static;
   color: #102c49;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
 }
 
@@ -169,7 +184,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  font-size: clamp(14px, 1.6vw, 23px);
+  font-size: clamp(20px, 1.6vw, 25px);
   line-height: 1.25;
   font-weight: 900;
   overflow-wrap: anywhere;
@@ -178,13 +193,15 @@
 .brand-red {
   color: #d71938;
 }
+
 .brand-green {
+  margin-left: 5px;
   color: #16852a;
-  margin-left: 5px;
 }
+
 .brand-dark {
-  color: #102c49;
   margin-left: 5px;
+  color: #102c49;
 }
 
 .logo-second-site {
@@ -195,63 +212,14 @@
   line-height: 1.4;
 }
 
-/* Advertisement */
-.header-ad {
-  min-width: 0;
-  min-height: 74px;
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  overflow: hidden;
-  border-radius: 4px;
-  background: linear-gradient(120deg, #071d39, #164878);
-  color: #fff;
-  text-align: center;
-}
+/* =========================================================
+   4. SEARCH
+========================================================= */
 
-.header-ad-link {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  line-height: 0;
-}
-
-.header-ad-image {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  max-height: 90px;
-  object-fit: contain;
-  object-position: center;
-}
-
-.ad-label {
-  color: #c7d9ee;
-  font-size: 10px;
-  letter-spacing: 0.5px;
-}
-
-.header-ad strong {
-  font-size: clamp(13px, 1.4vw, 19px);
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
-
-.header-ad > span:last-child {
-  color: #d4e3f3;
-  font-size: 11px;
-  line-height: 1.35;
-}
-
-/* Search form */
 .navbar-search {
   position: relative;
-  min-width: 0;
   width: 100%;
+  min-width: 0;
   height: 42px;
   display: flex;
   align-items: center;
@@ -267,8 +235,8 @@
 }
 
 .navbar-search input {
-  min-width: 0;
   width: 100%;
+  min-width: 0;
   height: 100%;
   padding: 0 12px;
   border: 0;
@@ -300,7 +268,10 @@
   display: none;
 }
 
-/* Category navigation */
+/* =========================================================
+   5. CATEGORY NAVIGATION
+========================================================= */
+
 .category-nav {
   position: relative;
   width: 100%;
@@ -310,6 +281,7 @@
 }
 
 .nav-inner {
+  min-width: 0;
   min-height: 44px;
   display: flex;
   align-items: stretch;
@@ -343,53 +315,390 @@
   background: #d71938;
   font-weight: 700;
 }
+
 .nav-home:hover,
 .nav-home.active {
   background: #ed2345;
   color: #fff;
 }
+
 .nav-link:hover,
 .nav-link.active {
   background: #123e70;
   color: #fff;
 }
+
 .nav-home-icon {
   font-size: 18px;
 }
 
-.brand-logo:focus-visible,
-.navbar-search button:focus-visible,
-.language-button:focus-visible,
-.nav-home:focus-visible,
-.nav-link:focus-visible,
-.header-ad-link:focus-visible {
-  outline: 2px solid #d71938;
-  outline-offset: 2px;
+/* =========================================================
+   6. DESKTOP NAVBAR ADVERTISEMENT
+========================================================= */
+
+/*
+  Desktop Navbar advertisement only.
+
+  Mobile and tablet navbar advertisements are hidden.
+  If React does not render an empty wrapper, no empty
+  advertisement space will be created.
+*/
+
+.header-ad {
+  min-width: 0;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #102c49;
+  text-align: center;
 }
 
-/* Tablet */
-@media (max-width: 1000px) {
+.header-ad-desktop {
+  display: flex;
+  min-width: 0;
+  width: 100%;
+}
+
+/* No navbar ads on tablet or mobile */
+.header-ad-mobile {
+  display: none !important;
+}
+
+/* =========================================================
+   7. ADVERTISEMENT GRID
+========================================================= */
+
+.header-ad-grid {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  justify-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Each advertisement card */
+.header-ad-grid > .header-ad-content {
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: fit-content;
+  justify-self: center;
+  align-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+/* A single ad occupies the row but keeps its content size */
+.header-ad-grid > .header-ad-content:only-child {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+/* =========================================================
+   8. ADVERTISEMENT LINKS
+========================================================= */
+
+.header-ad .header-ad-link {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  line-height: 0;
+  box-sizing: border-box;
+}
+
+.header-ad .header-ad-link:focus-visible {
+  outline: 2px solid #ff435d;
+  outline-offset: -2px;
+}
+
+/* =========================================================
+   9. IMAGE ADVERTISEMENT
+========================================================= */
+
+.header-ad .header-ad-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  object-position: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+}
+
+/* =========================================================
+   10. VIDEO ADVERTISEMENT
+========================================================= */
+
+.header-ad .header-ad-video {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  object-position: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #000;
+}
+
+/* Avoid unnecessary video card padding */
+.header-ad-content:has(.header-ad-video) {
+  width: fit-content;
+  min-height: 0;
+  padding: 0;
+  background: #000;
+}
+
+/* =========================================================
+   11. ANIMATED ADVERTISEMENT
+========================================================= */
+
+.header-ad .header-ad-animated {
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 0;
+  padding: 10px 14px;
+  overflow: hidden;
+  border-radius: 6px;
+  text-align: center;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  animation-duration: var(--ad-duration, 10s);
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.header-ad .header-ad-headline {
+  display: block;
+  font-size: clamp(14px, 1.5vw, 21px);
+  line-height: 1.4;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.header-ad .header-ad-description {
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.header-ad .header-ad-price {
+  display: block;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 800;
+}
+
+.header-ad .header-ad-offer {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.header-ad .header-ad-contact {
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   12. FALLBACK ADVERTISEMENT
+========================================================= */
+
+.header-ad .header-ad-fallback {
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 0;
+  padding: 10px 12px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: linear-gradient(120deg, #071d39, #164878);
+  color: #fff;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   13. ADVERTISEMENT TEXT
+========================================================= */
+
+.header-ad strong {
+  font-size: clamp(13px, 1.4vw, 19px);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.header-ad > span:last-child {
+  color: #d4e3f3;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.ad-label {
+  color: #c7d9ee;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* =========================================================
+   14. ADVERTISEMENT ANIMATIONS
+========================================================= */
+
+.header-ad .ad-animation-fade {
+  animation-name: advertisementFade;
+}
+
+@keyframes advertisementFade {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.header-ad .ad-animation-slide {
+  animation-name: advertisementSlide;
+}
+
+@keyframes advertisementSlide {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+.header-ad .ad-animation-zoom {
+  animation-name: advertisementZoom;
+}
+
+@keyframes advertisementZoom {
+  0%,
+  100% {
+    transform: scale(0.98);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+}
+
+/* =========================================================
+   15. DESKTOP
+========================================================= */
+
+@media (min-width: 1024px) {
+  .header-ad-desktop {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-ad-desktop .header-ad-grid {
+    gap: 8px;
+  }
+
+  .header-ad .header-ad-image,
+  .header-ad .header-ad-video {
+    max-height: 120px;
+  }
+}
+
+/* =========================================================
+   16. TABLET
+========================================================= */
+
+@media (min-width: 601px) and (max-width: 1023px) {
   .navbar-container {
     width: calc(100% - 24px);
   }
+
   .brand-row {
-    grid-template-columns: minmax(190px, 0.9fr) minmax(190px, 1.1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 12px;
   }
-  .navbar-search {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    width: 100%;
-    height: 38px;
-  }
+
   .brand-logo {
     grid-column: 1;
     grid-row: 1;
   }
-  .header-ad {
+
+  .brand-row .navbar-search {
     grid-column: 2;
     grid-row: 1;
+    width: 100%;
   }
+
+  /* No advertisement inside tablet navbar */
+  .brand-row .header-ad-desktop,
+  .header-ad-mobile {
+    display: none !important;
+  }
+
   .nav-home,
   .nav-link {
     padding-inline: 11px;
@@ -397,30 +706,40 @@
   }
 }
 
-/* Mobile */
+/* =========================================================
+   17. MOBILE
+========================================================= */
+
 @media (max-width: 600px) {
   .navbar-container {
     width: calc(100% - 16px);
   }
+
   .topbar {
     font-size: 10px;
   }
+
   .topbar-inner {
     min-height: 28px;
     gap: 6px;
   }
+
   .topbar-date {
+    min-width: 0;
     gap: 4px;
     font-size: 9px;
   }
+
   .calendar-icon,
   .topbar-divider,
   .social-links {
     display: none;
   }
+
   .topbar-right {
     gap: 6px;
   }
+
   .language-button {
     font-size: 10px;
   }
@@ -446,40 +765,22 @@
     height: 44px;
     flex-basis: 44px;
   }
+
   .first-logo {
     font-size: 15px;
   }
+
   .brand-div {
     font-size: clamp(14px, 4vw, 20px);
     line-height: 1.2;
   }
+
   .logo-second-site {
     margin-top: 2px;
     font-size: 9px;
   }
 
-  .header-ad {
-    grid-column: 1;
-    grid-row: 2;
-    display: flex;
-    width: 100%;
-    min-height: 58px;
-    padding: 5px 8px;
-    gap: 3px;
-  }
-
-  .header-ad-image {
-    max-height: 64px;
-  }
-  .ad-label {
-    font-size: 9px;
-  }
-  .header-ad strong {
-    font-size: 12px;
-  }
-  .header-ad > span:last-child {
-    font-size: 10px;
-  }
+  /* Mobile search */
 
   .navbar-search {
     position: absolute;
@@ -488,8 +789,6 @@
     right: 0;
     width: 38px;
     height: 38px;
-    grid-column: auto;
-    grid-row: auto;
     border: 0;
     border-radius: 50%;
     overflow: visible;
@@ -531,9 +830,12 @@
   .navbar-search.search-open input {
     display: block;
   }
+
   .navbar-search.search-open .desktop-search-button {
     display: grid;
   }
+
+  /* Mobile category menu */
 
   .nav-inner {
     width: 100%;
@@ -553,45 +855,58 @@
     gap: 4px;
     font-size: 11px;
   }
+
   .nav-home-icon {
     font-size: 15px;
   }
+
+  /* Absolutely no advertisements in the mobile navbar */
+
+  .brand-row .header-ad-desktop,
+  .header-ad-mobile {
+    display: none !important;
+  }
 }
 
-/* Very small phones */
+/* =========================================================
+   18. VERY SMALL PHONES
+========================================================= */
+
 @media (max-width: 360px) {
   .navbar-container {
     width: calc(100% - 12px);
   }
+
   .topbar-date {
     font-size: 8px;
   }
+
   .language-button {
     font-size: 9px;
   }
+
   .logo-icon {
     width: 39px;
     height: 39px;
     flex-basis: 39px;
   }
+
   .brand-logo {
     gap: 5px;
   }
+
   .first-logo {
     font-size: 13px;
   }
+
   .brand-div {
     font-size: 13px;
   }
+
   .logo-second-site {
     font-size: 8px;
   }
-  .header-ad {
-    min-height: 50px;
-  }
-  .header-ad strong {
-    font-size: 10px;
-  }
+
   .nav-home,
   .nav-link {
     min-height: 36px;
@@ -600,69 +915,28 @@
   }
 }
 
+/* =========================================================
+   19. ACCESSIBILITY
+========================================================= */
+
+.brand-logo:focus-visible,
+.navbar-search button:focus-visible,
+.language-button:focus-visible,
+.nav-home:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid #d71938;
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .navbar-wrapper,
   .nav-home,
   .nav-link {
     transition: none;
   }
-}
 
-/* =========================================
-   RESPONSIVE ADVERTISEMENT POSITION
-   Desktop: Inside Navbar
-   Mobile/Tablet: Below Breaking News
-========================================= */
-
-/* Desktop advertisement */
-.header-ad-desktop {
-  display: flex;
-}
-
-/* Mobile/Tablet advertisement: hidden on desktop */
-.header-ad-mobile {
-  display: none;
-}
-
-/* Mobile and Tablet */
-@media (max-width: 1023px) {
-  /* Hide advertisement inside the Navbar */
-  .brand-row .header-ad-desktop {
-    display: none !important;
-  }
-
-  /* Show advertisement below Breaking News */
-  .navbar-wrapper > .header-ad-mobile {
-    display: flex;
-    box-sizing: border-box;
-    width: calc(100% - 24px);
-    max-width: 100%;
-    margin: 12px auto;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
-
-  .header-ad-mobile .header-ad-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-
-  .header-ad-mobile .header-ad-image {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-  }
-}
-
-/* Small mobile screens */
-@media (max-width: 480px) {
-  .navbar-wrapper > .header-ad-mobile {
-    width: calc(100% - 16px);
-    margin: 8px auto;
+  .header-ad .header-ad-animated {
+    animation: none !important;
+    transition: none !important;
   }
 }
