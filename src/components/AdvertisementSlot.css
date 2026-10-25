@@ -3,7 +3,7 @@
 width: 100%;
 max-width: 100%;
 min-width: 0;
-margin: 16px auto;
+margin: 10px auto;
 padding: 0;
 box-sizing: border-box;
 }
@@ -14,7 +14,7 @@ display: grid;
 grid-template-columns: repeat(2, minmax(0, 1fr));
 justify-items: center;
 align-items: start;
-gap: 12px;
+gap: 10px;
 width: 100%;
 min-width: 0;
 box-sizing: border-box;
