@@ -74,15 +74,17 @@ function Footer() {
                 <span className="footer-logo-top">
                   {isBangla ? 'দৈনিক' : 'DAILY'}
                   <br />
-                  <span className="footer-logo-middle">
-                    {isBangla ? 'লালমাই ' : 'LALMAI JANAKANTHA'}
-                  </span>
-                  <span className="footer-logo-middle-2nd">
-                    {isBangla ? 'জনকণ্ঠ ' : 'LALMAI JANAKANTHA'}
-                  </span>
+                  <span className="logoName">
+                    <strong className="footer-logo-middle">
+                      {isBangla ? 'লালমাই ' : 'LALMAI JANAKANTHA'}
+                    </strong>
+                    <strong className="footer-logo-middle-2nd">
+                      {isBangla ? 'জনকণ্ঠ ' : 'LALMAI JANAKANTHA'}
+                    </strong>
 
-                  <span className="footer-logo-bottom">
-                    {isBangla ? 'সংবাদ' : 'SANGBAD'}
+                    <strong className="footer-logo-bottom">
+                      {isBangla ? 'সংবাদ' : 'SANGBAD'}
+                    </strong>
                   </span>
                 </span>
 
@@ -120,7 +122,7 @@ function Footer() {
             {/* Social Links */}
             <div className="footer-social-links">
               <a
-                href="https://www.facebook.com/"
+                href="https://www.facebook.com/dainika.lalama.i.janakantha.sambada"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"

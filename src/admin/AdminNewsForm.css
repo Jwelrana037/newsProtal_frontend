@@ -1,14 +1,30 @@
-.admin-form-page {
+
+/* ========================================
+   Admin News Form - Main Layout
+======================================== */
+
+.admin-news-form-page {
   min-height: 100vh;
   padding: 35px 16px;
   background: #f4f6fa;
   color: #1f2937;
+  box-sizing: border-box;
 }
 
-.admin-form-container {
+.admin-news-form-container {
+  width: 100%;
   max-width: 950px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
+
+.admin-news-form-container * {
+  box-sizing: border-box;
+}
+
+/* ========================================
+   Header
+======================================== */
 
 .admin-form-header {
   display: flex;
@@ -21,34 +37,61 @@
 .admin-form-header h1 {
   margin: 0 0 8px;
   font-size: 28px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #111827;
 }
 
 .admin-form-header p {
   margin: 0;
   color: #6b7280;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
-.admin-form-back {
+.admin-form-back-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px 15px;
-  border-radius: 7px;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
   background: #e5edff;
   color: #1d4ed8;
+  font-size: 14px;
+  font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
-.admin-news-form {
+.admin-form-back-button:hover {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* ========================================
+   Form Layout
+======================================== */
+
+.admin-news-form-container form {
   display: flex;
   flex-direction: column;
   gap: 22px;
 }
+
+/* ========================================
+   Form Sections
+======================================== */
 
 .admin-form-section {
   padding: 25px;
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
+  box-shadow: 0 2px 8px rgb(15 23 42 / 3%);
 }
 
 .admin-form-section h2 {
@@ -56,7 +99,27 @@
   padding-bottom: 12px;
   border-bottom: 1px solid #e5e7eb;
   font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #111827;
 }
+
+.admin-form-section h3 {
+  margin: 0 0 16px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Required Field Indicator */
+
+.admin-field label span {
+  color: #dc2626;
+}
+
+/* ========================================
+   Form Fields
+======================================== */
 
 .admin-field {
   display: flex;
@@ -72,13 +135,16 @@
 .admin-field label {
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.6;
+  color: #374151;
 }
 
 .admin-field input,
 .admin-field textarea,
 .admin-field select {
+  display: block;
   width: 100%;
-  box-sizing: border-box;
+  min-width: 0;
   padding: 12px 14px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
@@ -86,6 +152,17 @@
   background: #ffffff;
   color: #1f2937;
   font: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-field input::placeholder,
+.admin-field textarea::placeholder {
+  color: #9ca3af;
+  opacity: 1;
 }
 
 .admin-field input:focus,
@@ -96,20 +173,57 @@
 }
 
 .admin-field textarea {
+  min-height: 110px;
   resize: vertical;
-  line-height: 1.7;
+  line-height: 1.8;
+}
+
+.admin-field input:disabled,
+.admin-field select:disabled,
+.admin-field textarea:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.admin-field input[type="file"] {
+  padding: 10px;
+  background: #f9fafb;
+  cursor: pointer;
+}
+
+.admin-field input[type="file"]::file-selector-button {
+  margin-right: 12px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #e5edff;
+  color: #1d4ed8;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .admin-field small {
   color: #6b7280;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1.7;
 }
 
+/* ========================================
+   Image Preview
+======================================== */
+
 .admin-image-preview {
-  margin: 15px 0 20px;
+  margin: 18px 0 5px;
+  padding: 15px;
+  border: 1px dashed #d1d5db;
+  border-radius: 10px;
+  background: #f9fafb;
 }
 
 .admin-image-preview p {
+  margin: 0 0 12px;
+  color: #374151;
   font-size: 14px;
   font-weight: 600;
 }
@@ -118,24 +232,92 @@
   display: block;
   width: 100%;
   max-width: 350px;
-  max-height: 220px;
+  max-height: 240px;
   object-fit: cover;
+  object-position: center;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
+  background: #ffffff;
 }
 
-.admin-featured-option {
+.admin-form-uploading {
+  margin: 12px 0 0;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ========================================
+   Featured News Checkbox
+======================================== */
+
+.admin-featured-checkbox {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 8px;
+  padding: 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1e40af;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
   cursor: pointer;
 }
 
-.admin-featured-option input {
+.admin-featured-checkbox input {
+  flex: 0 0 auto;
   width: 18px;
   height: 18px;
+  margin: 0;
   accent-color: #2563eb;
+  cursor: pointer;
 }
+
+/* ========================================
+   Error and Success Messages
+======================================== */
+
+.admin-form-alert {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.admin-form-alert.error {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.admin-form-alert.success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+/* Loading Message */
+
+.admin-form-message {
+  max-width: 950px;
+  margin: 50px auto;
+  padding: 30px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #374151;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* ========================================
+   Form Action Buttons
+======================================== */
 
 .admin-form-actions {
   display: flex;
@@ -148,86 +330,190 @@
   border-radius: 12px;
 }
 
-.admin-form-cancel,
-.admin-form-actions button {
+.admin-form-cancel-button,
+.admin-form-submit-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
   padding: 12px 18px;
   border-radius: 8px;
   font: inherit;
+  font-size: 14px;
   font-weight: 600;
+  text-align: center;
   text-decoration: none;
   cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
 
-.admin-form-cancel {
+.admin-form-cancel-button {
   border: 1px solid #d1d5db;
-  color: #374151;
   background: #ffffff;
+  color: #374151;
 }
 
-.admin-form-actions button {
-  border: none;
-  color: #ffffff;
+.admin-form-cancel-button:hover {
+  border-color: #9ca3af;
+  background: #f9fafb;
+}
+
+.admin-form-submit-button {
+  border: 1px solid #2563eb;
   background: #2563eb;
+  color: #ffffff;
 }
 
-.admin-form-actions button:hover {
+.admin-form-submit-button:hover {
+  border-color: #1d4ed8;
   background: #1d4ed8;
 }
 
-.admin-form-actions button:disabled {
+.admin-form-submit-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.admin-form-error,
-.admin-form-success {
-  margin-bottom: 20px;
-  padding: 14px 16px;
-  border-radius: 8px;
-  line-height: 1.6;
+/* ========================================
+   Keyboard Accessibility
+======================================== */
+
+.admin-form-back-button:focus-visible,
+.admin-form-cancel-button:focus-visible,
+.admin-form-submit-button:focus-visible {
+  outline: 3px solid rgb(37 99 235 / 35%);
+  outline-offset: 3px;
 }
 
-.admin-form-error {
-  border: 1px solid #fecaca;
-  background: #fef2f2;
-  color: #b91c1c;
-}
+/* ========================================
+   Tablet Responsive
+======================================== */
 
-.admin-form-success {
-  border: 1px solid #bbf7d0;
-  background: #f0fdf4;
-  color: #166534;
-}
-
-@media (max-width: 600px) {
-  .admin-form-page {
-    padding: 22px 12px;
+@media (max-width: 768px) {
+  .admin-news-form-page {
+    padding: 25px 14px;
   }
 
   .admin-form-header {
     align-items: flex-start;
+    gap: 15px;
+  }
+
+  .admin-form-header h1 {
+    font-size: 25px;
+  }
+
+  .admin-form-section {
+    padding: 21px;
+  }
+
+  .admin-form-actions {
+    padding: 16px;
+  }
+}
+
+/* ========================================
+   Mobile Responsive
+======================================== */
+
+@media (max-width: 600px) {
+  .admin-news-form-page {
+    padding: 22px 12px;
+  }
+
+  .admin-form-header {
     flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
   }
 
   .admin-form-header h1 {
     font-size: 23px;
   }
 
+  .admin-form-header p {
+    font-size: 13px;
+  }
+
+  .admin-form-back-button {
+    align-self: flex-start;
+  }
+
+  .admin-news-form-container form {
+    gap: 16px;
+  }
+
   .admin-form-section {
     padding: 18px;
+    border-radius: 10px;
   }
 
   .admin-form-section h2 {
+    margin-bottom: 18px;
     font-size: 18px;
+  }
+
+  .admin-field {
+    margin-bottom: 18px;
+  }
+
+  .admin-field input,
+  .admin-field textarea,
+  .admin-field select {
+    padding: 11px 12px;
+    font-size: 14px;
+  }
+
+  .admin-image-preview {
+    padding: 12px;
+  }
+
+  .admin-image-preview img {
+    max-width: 100%;
+    max-height: 220px;
   }
 
   .admin-form-actions {
     flex-direction: column-reverse;
     align-items: stretch;
+    gap: 10px;
+    padding: 16px;
   }
 
-  .admin-form-cancel,
-  .admin-form-actions button {
-    text-align: center;
+  .admin-form-cancel-button,
+  .admin-form-submit-button {
+    width: 100%;
+    min-height: 46px;
   }
 }
+
+/* ========================================
+   Small Mobile Devices
+======================================== */
+
+@media (max-width: 360px) {
+  .admin-news-form-page {
+    padding: 16px 8px;
+  }
+
+  .admin-form-header h1 {
+    font-size: 21px;
+  }
+
+  .admin-form-section {
+    padding: 14px;
+  }
+
+  .admin-form-section h2 {
+    font-size: 17px;
+  }
+
+  .admin-form-actions {
+    padding: 12px;
+  }
+}
+

@@ -1,7 +1,78 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
 import './AdminLayout.css';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 function AdminLayout() {
+  const location = useLocation();
+
+  const [admin, setAdmin] = useState({
+    name: 'Admin User',
+    email: '',
+  });
+
+  const [profileLoading, setProfileLoading] = useState(true);
+
+  // Backend থেকে Admin Profile লোড করা
+  const fetchAdminProfile = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+
+      if (!token) {
+        setAdmin({ name: 'Admin User', email: '' });
+        return;
+      }
+
+      const response = await fetch(`${API_URL}/admin/profile`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: 'no-store',
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success && result.data) {
+        setAdmin({
+          name: result.data.name || 'Admin User',
+          email: result.data.email || '',
+        });
+      } else {
+        console.error(
+          'Admin Profile Load Error:',
+          result.message || 'Profile লোড করা যায়নি'
+        );
+      }
+    } catch (error) {
+      console.error('Admin Profile Load Error:', error);
+    } finally {
+      setProfileLoading(false);
+    }
+  }, []);
+
+  // প্রথমবার এবং Profile পেজে ফিরে এলে তথ্য লোড করা
+  useEffect(() => {
+    fetchAdminProfile();
+  }, [fetchAdminProfile, location.pathname]);
+
+  // Profile আপডেটের পর অন্য পেজ থেকেও Header রিফ্রেশ করার ব্যবস্থা
+  useEffect(() => {
+    const handleProfileUpdated = () => {
+      fetchAdminProfile();
+    };
+
+    window.addEventListener('admin-profile-updated', handleProfileUpdated);
+
+    return () => {
+      window.removeEventListener('admin-profile-updated', handleProfileUpdated);
+    };
+  }, [fetchAdminProfile]);
+
+  // Avatar-এর প্রথম অক্ষর
+  const avatarLetter = admin.name.trim().charAt(0).toUpperCase() || 'A';
+
   return (
     <div className="admin-layout">
       {/* Sidebar */}
@@ -17,6 +88,7 @@ function AdminLayout() {
 
         <nav className="admin-navigation">
           <p className="admin-nav-label">MAIN MENU</p>
+
           <NavLink
             to="/admin"
             end
@@ -27,6 +99,7 @@ function AdminLayout() {
             <span>▦</span>
             Dashboard
           </NavLink>
+
           <NavLink
             to="/admin/news"
             className={({ isActive }) =>
@@ -36,6 +109,7 @@ function AdminLayout() {
             <span>▤</span>
             All News
           </NavLink>
+
           <NavLink
             to="/admin/news/new"
             className={({ isActive }) =>
@@ -65,6 +139,18 @@ function AdminLayout() {
             <span>▷</span>
             Video News
           </NavLink>
+
+          <p className="admin-nav-label">ACCOUNT</p>
+
+          <NavLink
+            to="/admin/profile"
+            className={({ isActive }) =>
+              isActive ? 'admin-nav-link active' : 'admin-nav-link'
+            }
+          >
+            <span>⚙</span>
+            Profile Settings
+          </NavLink>
         </nav>
 
         <div className="admin-sidebar-footer">
@@ -81,16 +167,18 @@ function AdminLayout() {
             <h1>News Management</h1>
           </div>
 
-          <div className="admin-profile">
-            <div className="admin-avatar">A</div>
+          {/* Dynamic Admin Profile */}
+          <div className="admin-profile" title={admin.email}>
+            <div className="admin-avatar">{avatarLetter}</div>
 
             <div>
-              <strong>Admin User</strong>
-              <span>Administrator</span>
+              <strong>{profileLoading ? 'Loading...' : admin.name}</strong>
+              <span>{admin.email || 'Administrator'}</span>
             </div>
           </div>
         </header>
 
+        {/* Nested Pages */}
         <div className="admin-content">
           <Outlet />
         </div>

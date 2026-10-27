@@ -1,113 +1,35 @@
 import { useEffect, useState } from 'react';
 import './AdvertisementSlot.css';
 
-// Backend API URL
-// Production-এ VITE_API_URL environment variable সেট করবে।
-// উদাহরণ: https://your-backend.com/api
 const API_URL = (
   import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 ).replace(/\/+$/, '');
 
-// Backend-এর origin বের করা
-// API URL যদি https://example.com/api হয়,
-// তাহলে backend origin হবে https://example.com
-const BACKEND_ORIGIN = API_URL.replace(/\/api$/, '');
+const SERVER_URL = API_URL.replace(/\/api$/, '');
 
-function getMediaUrl(url) {
-  if (!url) return '';
-
-  // সম্পূর্ণ URL হলে সেটিই ব্যবহার করা হবে
-  if (/^https?:\/\//i.test(url)) {
-    return url;
+function getMediaUrl(path) {
+  if (!path || typeof path !== 'string') {
+    return '';
   }
 
-  // Relative URL-এর আগে backend origin যোগ হবে
-  return `${BACKEND_ORIGIN}/${url.replace(/^\/+/, '')}`;
-}
+  const mediaPath = path.trim();
 
-function AdvertisementCard({ ad }) {
-  const [mediaError, setMediaError] = useState(false);
-
-  const isVideo = ad.type === 'video' && Boolean(ad.video);
-
-  const mediaUrl = isVideo ? getMediaUrl(ad.video) : getMediaUrl(ad.image);
-
-  const animationClass =
-    ad.animation && ad.animation !== 'none'
-      ? `ad-animation-${ad.animation}`
-      : '';
-
-  const hasMedia = Boolean(mediaUrl) && !mediaError;
-
-  const content = (
-    <>
-      {hasMedia && isVideo ? (
-        <video
-          className="advertisement-media"
-          src={mediaUrl}
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls
-          onError={() => setMediaError(true)}
-        />
-      ) : hasMedia ? (
-        <img
-          className="advertisement-media"
-          src={mediaUrl}
-          alt={ad.title || 'বিজ্ঞাপন'}
-          loading="lazy"
-          onError={() => setMediaError(true)}
-        />
-      ) : null}
-
-      {ad.headline && <h3 className="advertisement-headline">{ad.headline}</h3>}
-
-      {ad.description && (
-        <p className="advertisement-description">{ad.description}</p>
-      )}
-
-      {ad.price && <p className="advertisement-price">মূল্য: {ad.price}</p>}
-
-      {ad.offer && <p className="advertisement-offer">{ad.offer}</p>}
-
-      {ad.contact && (
-        <p className="advertisement-contact">যোগাযোগ: {ad.contact}</p>
-      )}
-
-      {!hasMedia && !ad.headline && !ad.description && !ad.offer && (
-        <p className="advertisement-title">{ad.title}</p>
-      )}
-    </>
-  );
-
-  const cardStyle = {
-    backgroundColor: ad.backgroundColor || '#ffffff',
-    color: ad.textColor || '#222222',
-  };
-
-  // বিজ্ঞাপনের নির্ধারিত লিংক
-  if (ad.targetUrl) {
-    return (
-      <a
-        className={`advertisement-card ${animationClass}`}
-        href={ad.targetUrl}
-        target="_blank"
-        rel="noopener noreferrer sponsored"
-        style={cardStyle}
-        aria-label={ad.title || 'বিজ্ঞাপন দেখুন'}
-      >
-        {content}
-      </a>
-    );
+  if (/^https?:\/\//i.test(mediaPath)) {
+    return mediaPath;
   }
 
-  return (
-    <div className={`advertisement-card ${animationClass}`} style={cardStyle}>
-      {content}
-    </div>
-  );
+  // Backend থেকে /uploads/... এলে
+  if (mediaPath.startsWith('/')) {
+    return `${SERVER_URL}${mediaPath}`;
+  }
+
+  // Backend থেকে শুধু filename এলে
+  if (mediaPath.startsWith('uploads/')) {
+    return `${SERVER_URL}/${mediaPath}`;
+  }
+
+  // Backend থেকে শুধু ফাইলের নাম এলে
+  return `${SERVER_URL}/uploads/${mediaPath}`;
 }
 
 function AdvertisementSlot({ position, className = '' }) {
@@ -118,28 +40,57 @@ function AdvertisementSlot({ position, className = '' }) {
     const controller = new AbortController();
 
     async function fetchAdvertisements() {
-      setLoading(true);
-
       try {
+        setLoading(true);
+
         const response = await fetch(
           `${API_URL}/advertisements/position/${encodeURIComponent(position)}`,
-          { signal: controller.signal }
+          {
+            signal: controller.signal,
+          }
         );
 
         if (!response.ok) {
-          throw new Error(`Advertisement API error: ${response.status}`);
+          throw new Error(`Advertisement API failed: ${response.status}`);
         }
 
-        const data = await response.json();
+        const result = await response.json();
 
-        if (data.success && Array.isArray(data.advertisements)) {
-          setAdvertisements(data.advertisements);
-        } else {
-          setAdvertisements([]);
+        // Backend-এর বিভিন্ন সম্ভাব্য response structure
+        let data = [];
+
+        if (Array.isArray(result)) {
+          data = result;
+        } else if (Array.isArray(result.data)) {
+          data = result.data;
+        } else if (Array.isArray(result.advertisements)) {
+          data = result.advertisements;
+        } else if (result.advertisement) {
+          data = [result.advertisement];
+        } else if (result.data && typeof result.data === 'object') {
+          data = [result.data];
         }
+
+        // নির্দিষ্ট Placement-এর বিজ্ঞাপন বাছাই
+        const filteredAds = data.filter((ad) => {
+          if (!ad) return false;
+
+          const active = ad.isActive === true || ad.isActive === 'true';
+
+          const correctPosition = ad.placement === position;
+
+          return active && correctPosition;
+        });
+
+        console.log(`Advertisements for ${position}:`, filteredAds);
+
+        setAdvertisements(filteredAds);
       } catch (error) {
         if (error.name !== 'AbortError') {
-          console.error(`বিজ্ঞাপন লোড করা যায়নি (${position}):`, error);
+          console.error(
+            `Failed to load advertisements for ${position}:`,
+            error
+          );
 
           setAdvertisements([]);
         }
@@ -152,10 +103,11 @@ function AdvertisementSlot({ position, className = '' }) {
 
     fetchAdvertisements();
 
-    return () => controller.abort();
+    return () => {
+      controller.abort();
+    };
   }, [position]);
 
-  // লোড হওয়ার সময় অথবা বিজ্ঞাপন না থাকলে কোনো জায়গা নেবে না
   if (loading || advertisements.length === 0) {
     return null;
   }
@@ -163,19 +115,116 @@ function AdvertisementSlot({ position, className = '' }) {
   return (
     <section
       className={`advertisement-slot ${className}`}
-      aria-label="বিজ্ঞাপন"
+      data-ad-position={position}
+      aria-label="Advertisement"
     >
-      <div
-        className={`advertisement-grid ${
-          advertisements.length === 1
-            ? 'advertisement-grid-single'
-            : 'advertisement-grid-multiple'
-        }`}
-      >
-        {advertisements.map((ad) => (
-          <AdvertisementCard key={ad._id} ad={ad} />
-        ))}
-      </div>
+      {advertisements.map((ad) => {
+        const adId = ad._id || ad.id;
+
+        const imageUrl = getMediaUrl(ad.image || ad.imageUrl);
+
+        const videoUrl = getMediaUrl(ad.video || ad.videoUrl);
+
+        const destination = ad.link || ad.targetUrl || '';
+
+        const handleClick = async () => {
+          if (!adId) return;
+
+          try {
+            await fetch(`${API_URL}/advertisements/${adId}/click`, {
+              method: 'POST',
+            });
+          } catch (error) {
+            console.error('Advertisement click tracking failed:', error);
+          }
+        };
+
+        // Image load error হলে Console-এ দেখাবে
+        const handleImageError = (event) => {
+          console.error(
+            'Advertisement image failed to load:',
+            event.currentTarget.src
+          );
+        };
+
+        const type = String(ad.type || '')
+          .trim()
+          .toLowerCase();
+
+        const isVideo = type === 'video' || Boolean(ad.video || ad.videoUrl);
+
+        const isImage =
+          type === 'image' ||
+          type === 'banner' ||
+          Boolean(ad.image || ad.imageUrl);
+
+        return (
+          <article
+            className="advertisement-card"
+            key={adId || `${position}-${ad.title}`}
+          >
+            <span className="advertisement-label">Advertisement</span>
+
+            {isVideo && videoUrl ? (
+              <video
+                className="advertisement-video"
+                controls
+                playsInline
+                preload="metadata"
+                poster={imageUrl || undefined}
+              >
+                <source src={videoUrl} />
+                Your browser does not support this video.
+              </video>
+            ) : isImage && imageUrl ? (
+              destination ? (
+                <a
+                  href={destination}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleClick}
+                  className="advertisement-link"
+                >
+                  <img
+                    src={imageUrl}
+                    alt={ad.title || 'Advertisement'}
+                    className="advertisement-image"
+                    onError={handleImageError}
+                  />
+                </a>
+              ) : (
+                <img
+                  src={imageUrl}
+                  alt={ad.title || 'Advertisement'}
+                  className="advertisement-image"
+                  onError={handleImageError}
+                />
+              )
+            ) : (
+              <div className="advertisement-text">
+                {ad.title && <h3>{ad.title}</h3>}
+
+                {ad.description && <p>{ad.description}</p>}
+
+                {destination && (
+                  <a
+                    href={destination}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleClick}
+                  >
+                    Learn More
+                  </a>
+                )}
+              </div>
+            )}
+
+            {ad.title && isImage && (
+              <p className="advertisement-title">{ad.title}</p>
+            )}
+          </article>
+        );
+      })}
     </section>
   );
 }

@@ -3,6 +3,7 @@ import FeaturedNews from '../components/FeaturedNews';
 import AdvertisementSlot from '../components/AdvertisementSlot';
 
 import './Home.css';
+import './HomeAdvertisements.css';
 
 import { useLanguage } from '../context/LanguageContext';
 
@@ -11,28 +12,28 @@ function Home() {
 
   return (
     <main className="home-page">
-      {/* Homepage-এর একদম উপরে বিজ্ঞাপন */}
+      {/* 1. Homepage-এর একদম উপরে Advertisement */}
       <AdvertisementSlot position="homepage-top" className="homepage-ad-top" />
 
-      {/* Featured News */}
+      {/* 2. Featured News */}
       <FeaturedNews />
 
-      {/* Featured News-এর পরে এবং Latest News-এর আগে বিজ্ঞাপন */}
+      {/* 3. Featured News-এর পরে Advertisement */}
       <AdvertisementSlot
         position="homepage-middle"
         className="homepage-ad-middle"
       />
 
-      {/* আরও সংবাদ */}
+      {/* 4. Latest News-এর Heading */}
       <section className="home-heading">
         <h2>{t.moreNews}</h2>
         <p>{t.latestDescription}</p>
       </section>
 
-      {/* Backend থেকে আসা সংবাদ */}
+      {/* 5. Backend থেকে আসা Latest News */}
       <LatestNews />
 
-      {/* Homepage-এর নিচে বিজ্ঞাপন */}
+      {/* 6. Homepage-এর নিচে Advertisement */}
       <AdvertisementSlot
         position="homepage-bottom"
         className="homepage-ad-bottom"

@@ -13,27 +13,17 @@ export async function getPublishedNews() {
 }
 
 // Pagination সহ Published News আনা
-export async function getPublishedNewsPaginated(
-  page = 1,
-  limit = 10
-) {
-  const response = await fetch(
-    `${API_URL}/news?page=${page}&limit=${limit}`
-  );
+export async function getPublishedNewsPaginated(page = 1, limit = 10) {
+  const response = await fetch(`${API_URL}/news?page=${page}&limit=${limit}`);
 
   const result = await response.json();
 
   if (!response.ok) {
-    throw new Error(
-      result.message || 'সংবাদ লোড করা যায়নি।'
-    );
+    throw new Error(result.message || 'সংবাদ লোড করা যায়নি।');
   }
 
   return result;
 }
-
-
-
 
 export async function getNewsById(id) {
   const response = await fetch(`${API_URL}/news/${encodeURIComponent(id)}`);
@@ -69,7 +59,7 @@ export async function getNewsByCategory(category) {
   const result = await response.json();
 
   if (!response.ok) {
-    throw new Error(result.message || "সংবাদ লোড করা যায়নি।");
+    throw new Error(result.message || 'সংবাদ লোড করা যায়নি।');
   }
 
   return result.data;
@@ -84,8 +74,34 @@ export async function searchNews(query) {
   const result = await response.json();
 
   if (!response.ok) {
-    throw new Error(result.message || "সংবাদ খুঁজে পাওয়া যায়নি।");
+    throw new Error(result.message || 'সংবাদ খুঁজে পাওয়া যায়নি।');
   }
 
   return result.data;
+}
+
+// ========================================
+// News Image Upload
+// ========================================
+
+export async function uploadNewsImage(file) {
+  const formData = new FormData();
+
+  formData.append('image', file);
+
+  const response = await fetch(`${API_URL}/news/upload-image`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('adminToken') || ''}`,
+    },
+    body: formData,
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'ছবি আপলোড করা যায়নি।');
+  }
+
+  return result;
 }

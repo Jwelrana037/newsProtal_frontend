@@ -1,166 +1,58 @@
-/* Advertisement container */
-.advertisement-slot {
-width: 100%;
-max-width: 100%;
-min-width: 0;
-margin: 10px auto;
-padding: 0;
-box-sizing: border-box;
-}
-
-/* Advertisement grid */
-.advertisement-grid {
-display: grid;
-grid-template-columns: repeat(2, minmax(0, 1fr));
-justify-items: center;
-align-items: start;
-gap: 10px;
-width: 100%;
-min-width: 0;
-box-sizing: border-box;
-}
-
-/* One advertisement: keep it centered */
-.advertisement-grid-single {
-grid-template-columns: minmax(0, 1fr);
-}
-
-/* Each advertisement card */
+/* Advertisement Card */
 .advertisement-card {
-display: block;
-width: fit-content;
-max-width: 100%;
-min-width: 0;
-overflow: hidden;
-border-radius: 4px;
-box-sizing: border-box;
-text-decoration: none;
-line-height: normal;
+  display: table;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 
-/* Clickable advertisement */
-a.advertisement-card {
-cursor: pointer;
+/* Image Link */
+.advertisement-link {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
 }
 
-/* Advertisement image and video */
-.advertisement-media {
-display: block;
-width: auto;
-height: auto;
-max-width: 100%;
-max-height: 280px;
-object-fit: contain;
-object-position: center;
-border: 0;
+/* Image অনুযায়ী div-এর সাইজ হবে */
+.advertisement-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+  border: none;
+  border-radius: 0;
 }
 
-/* Advertisement text */
-.advertisement-headline {
-margin: 10px;
-font-size: 1.1rem;
-line-height: 1.4;
+/* Advertisement Label */
+.advertisement-label {
+  display: block;
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 11px;
+  color: #6b7280;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.advertisement-description,
-.advertisement-price,
-.advertisement-offer,
-.advertisement-contact,
-.advertisement-title {
-margin: 8px 10px;
-line-height: 1.5;
-overflow-wrap: anywhere;
-}
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .advertisement-card {
+    max-width: 100%;
+  }
 
-.advertisement-price {
-font-weight: 700;
-}
-
-.advertisement-offer {
-font-weight: 600;
-}
-
-/* Animation: fade */
-.advertisement-card.ad-animation-fade {
-animation: adFadeIn 0.6s ease both;
-}
-
-@keyframes adFadeIn {
-from {
-opacity: 0;
-}
-to {
-opacity: 1;
-}
-}
-
-/* Animation: slide */
-.advertisement-card.ad-animation-slide {
-animation: adSlideIn 0.6s ease both;
-}
-
-@keyframes adSlideIn {
-from {
-opacity: 0;
-transform: translateY(12px);
-}
-to {
-opacity: 1;
-transform: translateY(0);
-}
-}
-
-/* Animation: zoom */
-.advertisement-card.ad-animation-zoom {
-animation: adZoomIn 0.5s ease both;
-}
-
-@keyframes adZoomIn {
-from {
-opacity: 0;
-transform: scale(0.96);
-}
-to {
-opacity: 1;
-transform: scale(1);
-}
-}
-
-/* Tablet and mobile */
-@media (max-width: 767px) {
-.advertisement-slot {
-margin: 12px auto;
-}
-
-.advertisement-grid {
-gap: 8px;
-}
-
-.advertisement-media {
-max-height: 160px;
-}
-
-.advertisement-headline {
-font-size: 1rem;
-}
-}
-
-/* Small mobile */
-@media (max-width: 380px) {
-.advertisement-grid {
-gap: 6px;
-}
-
-.advertisement-media {
-max-height: 120px;
-}
-}
-
-/* Respect reduced-motion preferences */
-@media (prefers-reduced-motion: reduce) {
-.advertisement-card.ad-animation-fade,
-.advertisement-card.ad-animation-slide,
-.advertisement-card.ad-animation-zoom {
-animation: none;
-}
+  .advertisement-image {
+    max-width: 100%;
+    max-height: 230px;
+  }
 }

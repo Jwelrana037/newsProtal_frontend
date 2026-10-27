@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { adminRequest, adminLogout } from '../services/adminApi';
 
@@ -13,7 +13,7 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   // Backend থেকে সব সংবাদ লোড করা
-  async function loadNews() {
+  const loadNews = useCallback(async () => {
     try {
       setLoading(true);
       setError('');
@@ -24,29 +24,24 @@ function AdminDashboard() {
     } catch (err) {
       setError(err.message || 'সংবাদ লোড করা যায়নি।');
 
-      // Token অবৈধ বা মেয়াদ শেষ হলে Login পেজে পাঠানো
-      if (/token|unauthorized|authorization|অ্যাক্সেস/i.test(err.message)) {
+      // Token invalid বা expired হলে Login পেজে পাঠানো
+      if (
+        /token|unauthorized|authorization|access denied|অ্যাক্সেস/i.test(
+          err.message || ''
+        )
+      ) {
         adminLogout();
-        navigate('/admin/login');
+        navigate('/admin/login', { replace: true });
       }
     } finally {
       setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    async function loadNews() {
-      try {
-        setLoading(true);
-      } catch (err) {
-        if (/token|unauthorized|authorizationa|access/i.test(err.message)) {
-          adminLogout();
-          navigate('/AdminLogin');
-        }
-      }
-    }
-    loadNews();
   }, [navigate]);
+
+  // প্রথমবার Dashboard খুললে সংবাদ লোড করা
+  useEffect(() => {
+    loadNews();
+  }, [loadNews]);
 
   // সংবাদ Delete করা
   async function handleDelete(id, title) {
@@ -76,6 +71,7 @@ function AdminDashboard() {
     navigate('/admin/login', { replace: true });
   }
 
+  // Dashboard Statistics
   const publishedCount = news.filter(
     (item) => item.status === 'published'
   ).length;
@@ -86,6 +82,7 @@ function AdminDashboard() {
 
   return (
     <main className="admin-dashboard">
+      {/* Dashboard Header */}
       <header className="admin-header">
         <div>
           <h1>NewsToday Admin</h1>
@@ -108,15 +105,25 @@ function AdminDashboard() {
       </header>
 
       <section className="admin-dashboard-content">
+        {/* Dashboard Welcome */}
         <div className="admin-welcome">
           <div>
             <h2>Dashboard</h2>
-            <p>আপনার ওয়েবসাইটের সংবাদ ব্যবস্থাপনা করুন।</p>
+            <p>সংবাদ, বিজ্ঞাপন এবং ওয়েবসাইটের অন্যান্য বিষয় পরিচালনা করুন।</p>
           </div>
 
-          <Link to="/admin/news/new" className="admin-add-button">
-            + নতুন সংবাদ
-          </Link>
+          <div className="admin-welcome-actions">
+            <Link to="/admin/news/new" className="admin-add-button">
+              + নতুন সংবাদ
+            </Link>
+
+            <Link
+              to="/admin/advertisements"
+              className="admin-advertisement-button"
+            >
+              Advertisement Management
+            </Link>
+          </div>
         </div>
 
         {/* Statistics */}
@@ -145,8 +152,9 @@ function AdminDashboard() {
         {/* Error Message */}
         {error && (
           <div className="admin-error" role="alert">
-            {error}
-            <button type="button" onClick={loadNews}>
+            <span>{error}</span>
+
+            <button type="button" onClick={loadNews} disabled={loading}>
               আবার চেষ্টা করুন
             </button>
           </div>
@@ -163,7 +171,7 @@ function AdminDashboard() {
               onClick={loadNews}
               disabled={loading}
             >
-              Refresh
+              {loading ? 'Loading...' : 'Refresh'}
             </button>
           </div>
 

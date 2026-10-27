@@ -1,0 +1,17 @@
+/* Homepage Top */
+.homepage-ad-top {
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+/* Featured News-এর পরে */
+.homepage-ad-middle {
+  margin-top: 28px;
+  margin-bottom: 28px;
+}
+
+/* Latest News-এর পরে */
+.homepage-ad-bottom {
+  margin-top: 32px;
+  margin-bottom: 24px;
+}

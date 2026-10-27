@@ -1,0 +1,146 @@
+.admin-register-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  font-family: Arial, sans-serif;
+}
+
+.admin-register-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 35px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.1);
+}
+
+.admin-register-heading {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.admin-register-heading h1 {
+  margin: 0 0 12px;
+  color: #172033;
+  font-size: 27px;
+}
+
+.admin-register-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.admin-register-field {
+  margin-bottom: 19px;
+}
+
+.admin-register-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.admin-register-field input,
+.admin-register-field textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  outline: none;
+  background: #ffffff;
+  color: #1e293b;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.admin-register-field textarea {
+  resize: vertical;
+  overflow-wrap: anywhere;
+}
+
+.admin-register-field input:focus,
+.admin-register-field textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.admin-register-button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 7px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.admin-register-button:hover {
+  background: #b91c1c;
+}
+
+.admin-register-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.admin-register-message {
+  margin-bottom: 18px;
+  padding: 12px;
+  border-radius: 7px;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.admin-register-message.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.admin-register-message.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.admin-register-login {
+  margin: 22px 0 0;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.admin-register-login a {
+  color: #dc2626;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-register-login a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .admin-register-page {
+    padding: 20px 12px;
+  }
+
+  .admin-register-card {
+    padding: 25px 20px;
+  }
+
+  .admin-register-heading h1 {
+    font-size: 23px;
+  }
+}

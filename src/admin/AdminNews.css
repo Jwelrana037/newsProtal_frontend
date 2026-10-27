@@ -154,3 +154,33 @@
     width: 100%;
   }
 }
+
+.admin-news-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-news-delete {
+  padding: 6px 10px;
+  border: 1px solid #dc2626;
+  border-radius: 4px;
+  background: #fff;
+  color: #dc2626;
+  cursor: pointer;
+  font: inherit;
+}
+
+.admin-news-delete:hover {
+  background: #dc2626;
+  color: #fff;
+}
+
+.admin-news-message {
+  padding: 20px;
+  text-align: center;
+}
+
+.admin-news-error {
+  color: #dc2626;
+}

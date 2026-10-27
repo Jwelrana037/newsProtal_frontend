@@ -58,31 +58,34 @@
 .footer-logo-top {
   margin-bottom: 5px;
   color: #f3f1f1;
-  font-size: 15px;
-  font-weight: 700;
+
+  font-weight: 600;
   letter-spacing: -1px;
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.logoName strong {
+  font-size: clamp(21px, 2vw, 29px);
 }
 
 .footer-logo-middle {
   color: #ec2323;
-  font-size: clamp(21px, 2vw, 29px);
+  /* font-size: clamp(21px, 2vw, 29px);
   font-weight: 900;
-  letter-spacing: -0.5px;
-  font-size: 20px;
+  letter-spacing: -0.5px; */
 }
 .footer-logo-middle-2nd {
   color: green;
-  font-size: 20px;
+  /* font-size: clamp(21px, 2vw, 29px); */
 }
 .footer-logo-bottom {
-  align-self: flex-end;
+  /* align-self: flex-end;
   margin-top: 5px;
-  padding: 3px 10px;
+  padding: 3px 10px; */
   color: #ffffff;
-  font-weight: 900;
-  font-size: 20px;
-  font-weight: 800;
+  /* font-weight: 900;
+  font-size: clamp(21px, 2vw, 29px);
+  font-weight: 800; */
 }
 
 .footer-description {
@@ -405,9 +408,11 @@
   .footer-logo {
     margin-bottom: 18px;
   }
-
-  .footer-logo-middle {
-    font-size: 26px;
+   .footer-logo-top{
+    font-size: small;
+   }
+  .logoName strong {
+    font-size: clamp(16px, 2vw, 15px);
   }
 
   .footer-description {

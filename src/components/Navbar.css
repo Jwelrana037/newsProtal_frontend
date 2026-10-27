@@ -176,7 +176,7 @@
   position: static;
   color: #102c49;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 900;
 }
 
 .brand-div {
@@ -184,7 +184,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  font-size: clamp(20px, 1.6vw, 25px);
+  font-size: clamp(25px, 2vw, 30px);
   line-height: 1.25;
   font-weight: 900;
   overflow-wrap: anywhere;
