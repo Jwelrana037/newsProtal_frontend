@@ -184,7 +184,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  font-size: clamp(25px, 2vw, 30px);
+  font-size: clamp(25px, 2vw, 35px);
   line-height: 1.25;
   font-weight: 900;
   overflow-wrap: anywhere;
